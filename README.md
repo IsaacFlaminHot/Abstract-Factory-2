@@ -293,3 +293,101 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 ```
+# ===========================================================================
+# DIAGRAMA UML
+# ===========================================================================
+
+``` mermaid
+classDiagram
+    %% LADO DEL CLIENTE
+    class Cliente {
+        - restaurante: RestauranteFactory
+        - plato_fuerte: PlatoFuerte
+        - bebida: Bebida
+        - postre: Postre
+        + generar_menu()
+    }
+
+    %% FÁBRICA ABSTRACTA
+    class RestauranteFactory {
+        <<interface>>
+        + crear_plato_fuerte() PlatoFuerte
+        + crear_bebida() Bebida
+        + crear_postre() Postre
+    }
+
+    %% FÁBRICAS CONCRETAS
+    class RestauranteMexicano {
+        + crear_plato_fuerte() Tacos
+        + crear_bebida() AguaJamaica
+        + crear_postre() Pastel
+    }
+    class RestauranteJapones {
+        + crear_plato_fuerte() Ramen
+        + crear_bebida() Sake
+        + crear_postre() Dango
+    }
+
+    %% PRODUCTOS ABSTRACTOS
+    class PlatoFuerte {
+        <<interface>>
+        + servir() dict
+    }
+    class Bebida {
+        <<interface>>
+        + servir() dict
+    }
+    class Postre {
+        <<interface>>
+        + servir() dict
+    }
+
+    %% PRODUCTOS CONCRETOS (MEXICANOS)
+    class Tacos {
+        + servir() dict
+    }
+    class AguaJamaica {
+        + servir() dict
+    }
+    class Pastel {
+        + servir() dict
+    }
+
+    %% PRODUCTOS CONCRETOS (JAPONESES)
+    class Ramen {
+        + servir() dict
+    }
+    class Sake {
+        + servir() dict
+    }
+    class Dango {
+        + servir() dict
+    }
+
+    %% RELACIONES DEL CLIENTE
+    Cliente --> RestauranteFactory : "Usa"
+    Cliente --> PlatoFuerte : "Tiene"
+    Cliente --> Bebida : "Tiene"
+    Cliente --> Postre : "Tiene"
+
+    %% RELACIONES DE HERENCIA (Fábricas)
+    RestauranteFactory <|.. RestauranteMexicano : "Implementa"
+    RestauranteFactory <|.. RestauranteJapones : "Implementa"
+
+    %% RELACIONES DE HERENCIA (Productos)
+    PlatoFuerte <|.. Tacos
+    PlatoFuerte <|.. Ramen
+    Bebida <|.. AguaJamaica
+    Bebida <|.. Sake
+    Postre <|.. Pastel
+    Postre <|.. Dango
+
+    %% RELACIONES DE CREACIÓN (Dependencia)
+    RestauranteMexicano ..> Tacos : "Crea"
+    RestauranteMexicano ..> AguaJamaica : "Crea"
+    RestauranteMexicano ..> Pastel : "Crea"
+    
+    RestauranteJapones ..> Ramen : "Crea"
+    RestauranteJapones ..> Sake : "Crea"
+    RestauranteJapones ..> Dango : "Crea"
+```
