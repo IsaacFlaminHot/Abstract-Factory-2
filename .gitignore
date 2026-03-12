@@ -1,0 +1,13 @@
+# Dependencias de Node (Tailwind)
+node_modules/
+
+# Archivos basura de Mac
+.DS_Store
+
+# Archivos basura de Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+env/
