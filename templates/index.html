@@ -4,35 +4,210 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Menu restaurante "Abstract Factory"</title>
+    <link
+      href="{{ url_for('static', filename='dist/ooutput.css') }}"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <h1>Sistema de Pedidos Abstract Factory</h1>
-    <p>Selecciona el tipo de cocina para ver el menu completo</p>
+  <body class="bg-gray-50 min-h-screen">
+    <header class="bg-white p-2 shadow-sm border-b border-gray-100">
+      <div class="container mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🍽️</span>
+          <div>
+            <h1 class="text-xl font-extrabold text-gray-950">
+              Abstract Factory Pattern
+            </h1>
+            <p class="text-sm text-gray-500">
+              Sistema de Menús de Cocina Internacional
+            </p>
+          </div>
+        </div>
+        <span
+          class="px-4 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-full"
+          >Abstract Factory</span
+        >
+      </div>
+    </header>
 
-    <div class="botones-container">
-      <button onclick="pedirMenu('mexicano')">🇲🇽 Mexicano</button>
-      <button onclick="pedirMenu('japones')">🇯🇵 Japones</button>
-      <button onclick="pedirMenu('chino')">🇨🇳 Chino</button>
-      <button onclick="pedirMenu('italiano')">🇮🇹 Italiano</button>
-      <button onclick="pedirMenu('americano')">🇺🇸 Americano</button>
-    </div>
+    <main class="w-full mx-auto pt-6 px-4">
+      <section class="text-center">
+        <h2 class="text-2xl font-extrabold text-gray-950">
+          SELECCIONA UNA COCINA
+        </h2>
+        <p class="text-gray-500 mt-2">
+          Cada pestaña representa una fabrica concreta diferente
+        </p>
+      </section>
+      <div
+        class="mt-4 flex w-full items-center justify-center gap-1 p-2 bg-gray-100 rounded-xl shadow-inner"
+      >
+        <button
+          id="btn-china"
+          onclick="pedirMenu('china')"
+          class="menu-btn flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition font-semibold text-gray-500 hover:text-gray-950 hover:bg-gray-200"
+        >
+          <span class="text-2xl">🇨🇳</span> China
+        </button>
+        <button
+          id="btn-japonesa"
+          onclick="pedirMenu('japonesa')"
+          class="menu-btn flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition font-semibold text-gray-500 hover:text-gray-950 hover:bg-gray-200"
+        >
+          <span class="text-2xl">🇯🇵</span> Japonesa
+        </button>
+        <button
+          id="btn-mexicana"
+          onclick="pedirMenu('mexicana')"
+          class="menu-btn flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition font-semibold text-gray-500 hover:text-gray-950 hover:bg-gray-200"
+        >
+          <span class="text-2xl">🇲🇽</span> Mexicana
+        </button>
+        <button
+          id="btn-italiana"
+          onclick="pedirMenu('italiana')"
+          class="menu-btn flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition font-semibold text-gray-500 hover:text-gray-950 hover:bg-gray-200"
+        >
+          <span class="text-2xl">🇮🇹</span> Italiana
+        </button>
+        <button
+          id="btn-americana"
+          onclick="pedirMenu('americana')"
+          class="menu-btn flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl transition font-semibold text-gray-500 hover:text-gray-950 hover:bg-gray-200"
+        >
+          <span class="text-2xl">🇺🇸</span> Americana
+        </button>
+      </div>
 
-    <div class="menu-card" id="tarjeta-menu">
-      <h2 id="titulo-menu">Tu Orden</h2>
-      <div class="item">
-        <span class="etiqueta">Plato Fuerte:</span
-        ><span id="plato_fuerte"></span>
-      </div>
-      <div class="item">
-        <span class="etiqueta">Bebida:</span><span id="bebida"></span>
-      </div>
-      <div class="item">
-        <span class="etiqueta">Postre:</span><span id="postre"></span>
-      </div>
-    </div>
+      <section id="tarjeta-menu" class="hidden space-y-12 pt-6">
+        <div
+          class="text-center p-6 bg-white border border-gray-100 rounded-3xl shadow-sm max-w-2xl mx-auto"
+        >
+          <h3
+            class="text-3xl font-extrabold text-gray-950 flex items-center justify-center gap-3"
+          >
+            <span class="text-4xl" id="bandera-menu">🇨🇳</span>
+            <span id="titulo-menu">Menú</span>
+          </h3>
+          <p class="text-gray-600 mt-3 text-lg">
+            Menú completo generado por la fábrica. Todos los productos
+            pertenecen a la misma familia.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm"
+          >
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-gray-50 rounded-full text-gray-500 text-2xl">
+                🍽️
+              </div>
+              <div>
+                <span class="text-xs font-semibold text-gray-400 tracking-wider"
+                  >PLATO FUERTE</span
+                >
+                <h3
+                  id="plato_fuerte"
+                  class="text-2xl font-extrabold text-gray-950 mt-1"
+                ></h3>
+                <p id="desc_plato" class="text-gray-600 mt-2 text-sm"></p>
+                <div id="tags_plato" class="mt-4 flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm"
+          >
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-gray-50 rounded-full text-gray-500 text-2xl">
+                🍵
+              </div>
+              <div>
+                <span class="text-xs font-semibold text-gray-400 tracking-wider"
+                  >BEBIDA</span
+                >
+                <h3
+                  id="bebida"
+                  class="text-2xl font-extrabold text-gray-950 mt-1"
+                ></h3>
+                <p id="desc_bebida" class="text-gray-600 mt-2 text-sm"></p>
+                <div id="tags_bebida" class="mt-4 flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm"
+          >
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-gray-50 rounded-full text-gray-500 text-2xl">
+                🍦
+              </div>
+              <div>
+                <span class="text-xs font-semibold text-gray-400 tracking-wider"
+                  >POSTRE</span
+                >
+                <h3
+                  id="postre"
+                  class="text-2xl font-extrabold text-gray-950 mt-1"
+                ></h3>
+                <p id="desc_postre" class="text-gray-600 mt-2 text-sm"></p>
+                <div id="tags_postre" class="mt-4 flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="text-center p-6 bg-gray-50 border border-gray-100 rounded-3xl max-w-4xl mx-auto shadow-inner"
+        >
+          <p class="text-sm font-semibold text-gray-600">
+            Jair Isaac, Jose Andres, Jacob Casales, Andres Gutierrez, Bryan
+            Alejandro | Ejemplo de Patrón de Diseño Abstract Factory en Python
+          </p>
+        </div>
+      </section>
+    </main>
 
     <script>
+      const banderas = {
+        china: "🇨🇳",
+        japonesa: "🇯🇵",
+        mexicana: "🇲🇽",
+        italiana: "🇮🇹",
+        americana: "🇺🇸",
+      };
+
+      const nombresCocina = {
+        china: "China",
+        japonesa: "Japonesa",
+        mexicana: "Mexicana",
+        italiana: "Italiana",
+        americana: "Americana",
+      };
+
       function pedirMenu(tipoCocina) {
+        // --- 1. Cambio de colores de los botones ---
+        const botones = document.querySelectorAll(".menu-btn");
+        const clasesInactivo = [
+          "text-gray-500",
+          "hover:text-gray-950",
+          "hover:bg-gray-200",
+        ];
+        const clasesActivo = ["bg-gray-950", "text-white", "shadow-md"];
+
+        botones.forEach((btn) => {
+          btn.classList.remove(...clasesActivo);
+          btn.classList.add(...clasesInactivo);
+        });
+
+        const botonSeleccionado = document.getElementById("btn-" + tipoCocina);
+        botonSeleccionado.classList.remove(...clasesInactivo);
+        botonSeleccionado.classList.add(...clasesActivo);
+
+        // --- 2. Petición a Python (Flask) ---
         fetch("/ordenar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -40,15 +215,56 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            document.getElementById("tarjeta-menu").style.display =
-              "inline-block";
+            // Mostrar la tarjeta
+            const tarjeta = document.getElementById("tarjeta-menu");
+            tarjeta.classList.remove("hidden");
+            tarjeta.style.display = "block";
+
+            // Actualizar Bandera
+            document.getElementById("bandera-menu").innerText =
+              banderas[tipoCocina] || "🍽️";
+
+            // Titulo
             document.getElementById("titulo-menu").innerText =
-              "Orden: Coina " +
-              tipoCocina.charAt(0).toUpperCase() +
-              tipoCocina.slice(1);
-            document.getElementById("plato_fuerte").innerText = data.plato;
-            document.getElementById("bebida").innerText = data.bebida;
-            document.getElementById("postre").innerText = data.postre;
+              "Cocina " + nombresCocina[tipoCocina];
+
+            // datos de python en la tarjeta
+
+            // Plato fuerte
+            document.getElementById("plato_fuerte").innerText =
+              data.plato.nombre;
+            document.getElementById("desc_plato").innerText =
+              data.plato.descripcion;
+
+            // Bebida
+            document.getElementById("bebida").innerText = data.bebida.nombre;
+            document.getElementById("desc_bebida").innerText =
+              data.bebida.descripcion;
+
+            // Postre
+            document.getElementById("postre").innerText = data.postre.nombre;
+            document.getElementById("desc_postre").innerText =
+              data.postre.descripcion;
+
+            // Generar tags
+            const crearTagsHTML = (tagsArray) => {
+              return tagsArray
+                .map(
+                  (tag) =>
+                    `<span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">${tag}</span>`,
+                )
+                .join("");
+            };
+
+            document.getElementById("tags_plato").innerHTML = crearTagsHTML(
+              data.plato.tags,
+            );
+            document.getElementById("tags_bebida").innerHTML = crearTagsHTML(
+              data.plato.tags,
+            );
+            document.getElementById("tags_postre").innerHTML = crearTagsHTML(
+              data.plato.tags,
+            );
           })
           .catch((error) => console.error("Error:", error));
       }

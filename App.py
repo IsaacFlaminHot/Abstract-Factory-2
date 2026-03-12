@@ -21,57 +21,117 @@ class Postre(ABC):
 #Productos concretos (Familia de productos 1: Comida Japonesa)
 class Ramen(PlatoFuerte):
     def servir(self):
-        return "Ramen"
+        return {
+            "nombre": "Ramen",
+            "descripcion": "Fideos tradicionales japoneses en caldo rico en umami con cerdo chashu y huevo.",
+            "tags": ["Fideos", "Umami", "Cerdo"]
+        }
 class Sake(Bebida):
     def servir(self):
-        return "Sake"
+        return {
+            "nombre": "Sake",
+            "descripcion": "Vino de arroz tradicional japonés servido caliente en taza de cerámica.",
+            "tags": ["Arroz", "Fermentado", "Con Alcohol"]
+        }
 class Dango(Postre):
     def servir(self):
-        return "Dango"
+        return {
+            "nombre": "Dango",
+            "descripcion": "Bolitas dulces y masticables de harina de arroz servidas en un palillo de bambú.",
+            "tags": ["Arroz", "Dulce", "Tradicional"]
+        }
 
 #Productos concretos (Familia de productos 2: Comida Mexicana)
 class Tacos(PlatoFuerte):
     def servir(self):
-        return "Tacos de carne asada"
+        return {
+            "nombre": "Tacos de carne asada",
+            "descripcion": "Tortillas de maíz hechas a mano con jugosa carne asada al carbón, guacamole y salsa.",
+            "tags": ["Maíz", "Carne", "Picante"]
+        }
 class AguaJamaica(Bebida):
     def servir(self):
-        return "Agua de Jamaica"
+        return {
+            "nombre": "Agua de Jamaica",
+            "descripcion": "Infusión fría de flor de jamaica, refrescante y ligeramente endulzada.",
+            "tags": ["Refrescante", "Frío", "Sin Alcohol"]
+        }
 class Pastel(Postre):
     def servir(self):
-        return "Pastel de tres leches"
+        return {
+            "nombre": "Pastel de tres leches",
+            "descripcion": "Bizcocho esponjoso bañado en tres tipos de leche, decorado con durazno y crema.",
+            "tags": ["Dulzura Alta", "Lácteos", "Esponjoso"]
+        }
 
 #Productos concretos (Familia de productos 3: Comida China)
 class ChowMein(PlatoFuerte):
     def servir(self):
-        return "Chow Mein"
+        return {
+            "nombre": "Chow Mein",
+            "descripcion": "Fideos salteados al wok con vegetales frescos, pollo y salsa de soja tradicional.",
+            "tags": ["Fideos", "Vegetales", "Wok"]
+        }
 class TeJazmin(Bebida):
     def servir(self):
-        return "Té Jazmín"
+        return {
+            "nombre": "Té Jazmín",
+            "descripcion": "Té verde caliente perfumado con delicadas flores de jazmín, ideal para la digestión.",
+            "tags": ["Té Verde", "Caliente", "Digestivo"]
+        }
 class RollitoDulce(Postre):
     def servir(self):
-        return "Rollito Dulce con nieve"
+        return {
+            "nombre": "Rollito Dulce con nieve",
+            "descripcion": "Delicioso rollito de masa frita crujiente relleno de helado artesanal de vainilla.",
+            "tags": ["Frito", "Helado", "Dulzura Alta"]
+        }
 
 #Productos concretos (Familia de productos 4: Comida italiana)
 class Pizza(PlatoFuerte):
     def servir(self):
-        return "Pizza Margherita"
+        return {
+            "nombre": "Pizza Margherita",
+            "descripcion": "Masa artesanal al horno de leña con salsa de tomate pomodoro, mozzarella fresca y albahaca.",
+            "tags": ["Horno de Leña", "Queso", "Tradicional"]
+        }
 class Vino(Bebida):
     def servir(self):
-        return "Vino Tinto"
-class Tiramisú(Postre):
+        return {
+            "nombre": "Vino Tinto",
+            "descripcion": "Copa de vino tinto reserva, con notas profundas a frutos rojos y madera.",
+            "tags": ["Uva", "Cosecha", "Con Alcohol"]
+        }
+class Tiramisu(Postre):
     def servir(self):
-        return "Tiramisú"
+        return {
+            "nombre": "Tiramisú",
+            "descripcion": "Postre frío de capas de bizcocho bañadas en café espresso y suave crema de mascarpone.",
+            "tags": ["Café", "Mascarpone", "Frío"]
+        }
 
 #Productos concretos (Familia de productos 5: Comida Americana)
 class Hamburguesa(PlatoFuerte):
     def servir(self):
-        return "Hamburguesa"
+        return {
+            "nombre": "Hamburguesa Clásica",
+            "descripcion": "Carne de res a la parrilla con queso cheddar derretido, lechuga, tomate y papas fritas.",
+            "tags": ["Carne", "Queso", "Parrilla"]
+        }
 class Refresco(Bebida):
     def servir(self):
-        return "Refresco de cola"
+        return {
+            "nombre": "Refresco de cola",
+            "descripcion": "Bebida carbonatada dulce y muy fría, servida en vaso grande con abundantes hielos.",
+            "tags": ["Burbujas", "Azúcar", "Frío"]
+        }
 class Brownie(Postre):
     def servir(self):
-        return "Brownie con helado"
+        return {
+            "nombre": "Brownie con helado",
+            "descripcion": "Cuadro de pastel de chocolate denso y caliente, servido con una bola de helado de vainilla.",
+            "tags": ["Chocolate", "Caliente y Frío", "Dulzura Alta"]
+        }
 
 #Fabrica abstracta
 class RestauranteFactory(ABC):
@@ -126,7 +186,7 @@ class RestauranteItaliano(RestauranteFactory):
         return Vino()
 
     def crear_postre(self) -> Postre:
-        return Tiramisú()
+        return Tiramisu()
 
 class RestauranteAmericano(RestauranteFactory):
     def crear_plato_fuerte(self) -> PlatoFuerte:
@@ -154,28 +214,14 @@ class Cliente:
         self.bebida = self.restaurante.crear_bebida()
         self.postre = self.restaurante.crear_postre()
 
-    def servir_comida(self):
-        if not self.plato_fuerte:
-            self.generar_menu()
-
-        print("Servicio en curso:")
-        print(f"Plato fuerte: {self.plato_fuerte.servir()}")
-        print(f"Bebida: {self.bebida.servir()}")
-        print(f"Postre: {self.postre.servir()}")    
-
-    def cambiar_restaurante(self, nuevo_restaurante: RestauranteFactory):
-        print(f"Cambiando restaurante")
-        self.restaurante = nuevo_restaurante
-        self.generar_menu()
-
 app = Flask(__name__)
 
 diccionario_fabricas = {
-    "mexicano": RestauranteMexicano,
-    "japones": RestauranteJapones,
-    "chino": RestauranteChino,
-    "italiano": RestauranteItaliano,
-    "americano": RestauranteAmericano
+    "mexicana": RestauranteMexicano,
+    "japonesa": RestauranteJapones,
+    "china": RestauranteChino,
+    "italiana": RestauranteItaliano,
+    "americana": RestauranteAmericano
 }
 
 @app.route('/')
@@ -192,13 +238,13 @@ def ordenar():
         cliente = Cliente(fabrica_seleccionada)
         cliente.generar_menu()
 
-        resppuesta = {
+        respuesta = {
             "plato": cliente.plato_fuerte.servir(),
             "bebida": cliente.bebida.servir(),
             "postre": cliente.postre.servir()
         }
 
-        return jsonify(resppuesta)
+        return jsonify(respuesta)
     else:
         return jsonify({"error": "Tipo de cocina no reconocido"}), 400
 
