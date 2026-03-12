@@ -1,3 +1,4 @@
+from flask import Flask, render_template, request, jsonify
 from abc import ABC, abstractmethod
 
 #Productos abstractos
@@ -167,18 +168,41 @@ class Cliente:
         self.restaurante = nuevo_restaurante
         self.generar_menu()
 
-if __name__ == "__main__":
+app = Flask(__name__)
 
-    fabrica_mexicana = RestauranteMexicano()
+diccionario_fabricas = {
+    "mexicano": RestauranteMexicano,
+    "japones": RestauranteJapones,
+    "chino": RestauranteChino,
+    "italiano": RestauranteItaliano,
+    "americano": RestauranteAmericano
+}
 
-    cliente = Cliente(fabrica_mexicana)
+@app.route('/')
+def inicio():
+    return render_template('index.html')
 
-    cliente.generar_menu()
+@app.route('/ordenar', methods=['POST'])
+def ordenar():
+    datos = request.get_json()
+    tipo_solicitado = datos.get('cocina')
 
-    cliente.servir_comida()
+    if tipo_solicitado in diccionario_fabricas:
+        fabrica_seleccionada = diccionario_fabricas[tipo_solicitado]()
+        cliente = Cliente(fabrica_seleccionada)
+        cliente.generar_menu()
 
-    fabrica_japonesa = RestauranteJapones()
-    cliente.cambiar_restaurante(fabrica_japonesa)
+        resppuesta = {
+            "plato": cliente.plato_fuerte.servir(),
+            "bebida": cliente.bebida.servir(),
+            "postre": cliente.postre.servir()
+        }
 
-    cliente.servir_comida()
+        return jsonify(resppuesta)
+    else:
+        return jsonify({"error": "Tipo de cocina no reconocido"}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 

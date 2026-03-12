@@ -1,11 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu restaurante "Abstract Factory"</title>
+  </head>
+  <body>
+    <h1>Sistema de Pedidos Abstract Factory</h1>
+    <p>Selecciona el tipo de cocina para ver el menu completo</p>
+
+    <div class="botones-container">
+      <button onclick="pedirMenu('mexicano')">🇲🇽 Mexicano</button>
+      <button onclick="pedirMenu('japones')">🇯🇵 Japones</button>
+      <button onclick="pedirMenu('chino')">🇨🇳 Chino</button>
+      <button onclick="pedirMenu('italiano')">🇮🇹 Italiano</button>
+      <button onclick="pedirMenu('americano')">🇺🇸 Americano</button>
+    </div>
+
+    <div class="menu-card" id="tarjeta-menu">
+      <h2 id="titulo-menu">Tu Orden</h2>
+      <div class="item">
+        <span class="etiqueta">Plato Fuerte:</span
+        ><span id="plato_fuerte"></span>
+      </div>
+      <div class="item">
+        <span class="etiqueta">Bebida:</span><span id="bebida"></span>
+      </div>
+      <div class="item">
+        <span class="etiqueta">Postre:</span><span id="postre"></span>
+      </div>
+    </div>
+
+    <script>
+      function pedirMenu(tipoCocina) {
+        fetch("/ordenar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cocina: tipoCocina }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("tarjeta-menu").style.display =
+              "inline-block";
+            document.getElementById("titulo-menu").innerText =
+              "Orden: Coina " +
+              tipoCocina.charAt(0).toUpperCase() +
+              tipoCocina.slice(1);
+            document.getElementById("plato_fuerte").innerText = data.plato;
+            document.getElementById("bebida").innerText = data.bebida;
+            document.getElementById("postre").innerText = data.postre;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
 </html>
