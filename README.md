@@ -9,9 +9,11 @@ hasta el momento de su creación, garantizando que no se mezclen
 (ej. un taco con sake).
 =============================================================================
 """
+```python
 
 from flask import Flask, render_template, request, jsonify
 from abc import ABC, abstractmethod
+```
 
 # ===========================================================================
 # PASO 1: PRODUCTOS ABSTRACTOS (Las interfaces o "moldes")
@@ -19,6 +21,7 @@ from abc import ABC, abstractmethod
 # Definimos qué es lo que todo restaurante debe poder servir.
 # El cliente solo conocerá estas clases, no los platillos reales.
 
+```python
 class PlatoFuerte(ABC):
     @abstractmethod
     def servir(self) -> dict:
@@ -37,12 +40,15 @@ class Postre(ABC):
         """Devuelve un diccionario con los datos del postre"""
         pass
 
+```
+
 # ===========================================================================
 # PASO 2: PRODUCTOS CONCRETOS (Las implementaciones reales)
 # ===========================================================================
 # Cada familia de productos (ej. Comida Japonesa) implementa las interfaces
 # de los productos abstractos. Aquí está la "base de datos" de los platillos.
 
+```python
 # --- Familia 1: Comida Japonesa ---
 class Ramen(PlatoFuerte):
     def servir(self):
@@ -157,11 +163,14 @@ class Brownie(Postre):
             "descripcion": "Cuadro de pastel de chocolate denso y caliente, servido con una bola de helado de vainilla.",
             "tags": ["Chocolate", "Caliente y Frío", "Dulzura Alta"]
         }
+```
 
 # ===========================================================================
 # PASO 3: FÁBRICA ABSTRACTA (La interfaz creadora principal)
 # ===========================================================================
 # Declara un conjunto de métodos para crear cada uno de los productos abstractos.
+
+```python
 class RestauranteFactory(ABC):
     @abstractmethod
     def crear_plato_fuerte(self) -> PlatoFuerte: pass
@@ -171,12 +180,15 @@ class RestauranteFactory(ABC):
     
     @abstractmethod
     def crear_postre(self) -> Postre: pass
+```
 
 # ===========================================================================
 # PASO 4: FÁBRICAS CONCRETAS (Los ensambladores de familias)
 # ===========================================================================
 # Implementan la fábrica abstracta. Cada fábrica concreta se asegura de 
 # instanciar ÚNICAMENTE los productos que pertenecen a su familia culinaria.
+
+```python
 class RestauranteChino(RestauranteFactory):
     def crear_plato_fuerte(self) -> PlatoFuerte: return ChowMein()
     def crear_bebida(self) -> Bebida: return TeJazmin()
@@ -201,6 +213,7 @@ class RestauranteAmericano(RestauranteFactory):
     def crear_plato_fuerte(self) -> PlatoFuerte: return Hamburguesa()
     def crear_bebida(self) -> Bebida: return Refresco()
     def crear_postre(self) -> Postre: return Brownie()
+```
 
 # ===========================================================================
 # PASO 5: EL CÓDIGO CLIENTE (Aislamiento de la lógica)
@@ -208,6 +221,8 @@ class RestauranteAmericano(RestauranteFactory):
 # El cliente cumple la regla principal: Recibe la fábrica por constructor.
 # El cliente no sabe si está sirviendo Ramen o Tacos, solo pide a la fábrica
 # sus interfaces genéricas y confía en el resultado.
+
+```python
 class Cliente:
     def __init__(self, restaurante: RestauranteFactory):
         # A. Recibir la fábrica por constructor
@@ -222,9 +237,13 @@ class Cliente:
         self.bebida = self.restaurante.crear_bebida()
         self.postre = self.restaurante.crear_postre()
 
+```
+
 # ===========================================================================
 # PASO 6: SERVIDOR WEB FLASK (Endpoints y ruteo)
 # ===========================================================================
+
+```python
 app = Flask(__name__)
 
 # Diccionario que enlaza el texto del HTML con la clase Fábrica correspondiente.
@@ -272,3 +291,5 @@ def ordenar():
 # Arranque del servidor de desarrollo
 if __name__ == '__main__':
     app.run(debug=True)
+
+```
